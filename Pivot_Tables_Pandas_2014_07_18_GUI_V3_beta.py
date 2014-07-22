@@ -349,8 +349,10 @@ class MainWindow(QtGui.QMainWindow):
 		for number, widget in enumerate(checkWidgetList):
 			layout = QtGui.QGridLayout()
 			for index, each in enumerate(data.columns):
-				self.combo.addItem(each)
-				self.combo2.addItem(each)
+				# Fill combo boxes, only once
+				if number == 1:
+					self.combo.addItem(each)
+					self.combo2.addItem(each)
 
 				# Make checkboxes for values - first half belowng to "Plot Values", second half "Filter"
 				self.checkBoxList.append(QtGui.QCheckBox(each, widget))
