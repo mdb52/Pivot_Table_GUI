@@ -245,15 +245,29 @@ class MainWindow(QtGui.QMainWindow):
 		self.plotWindow.clear()		# refresh if old data is here
 		print(np.asarray(self.pivotData))
 		xVals = self.pivotData.columns.tolist()
+		xVals = [str(x) for x in xVals]
 		yVals = self.pivotData.index.tolist()
-		print('x'+repr(xVals))
-		print('y'+repr(yVals))
+		yVals = [str(x) for x in yVals]
+		
+
+		print('x: '+repr(xVals))
+		print('y: '+repr(yVals))
+		
 		self.plotWindow.addLegend()	# This must go above the plot calls
 		for ind, each in enumerate(np.asarray(self.pivotData)):
 			self.plotWindow.plot(each, name=yVals[ind], symbol='o')
+		
 		self.plotWindow.setLabel('left', 'LEFT')
 		self.plotWindow.setLabel('bottom', 'BTTM')
+	
+		# Make tick labels
+		xAxis = self.plotWindow.getAxis('bottom')
+		newTicks = zip(range(len(xVals)), (xVals))
+		print('New Ticks: '+repr(newTicks))
+		# xAxis.setStyle(autoExpandTextSpace = 1)		# not out until version 0.9.9
+		xAxis.setTicks([newTicks]) 		# 
 
+		
 	def troubleshootClicked(self):
 		print('Combo text value: '+repr(str(self.combo.currentText())))
 		listDataToPlot = []
