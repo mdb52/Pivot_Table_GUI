@@ -8,7 +8,7 @@ Description: Tool to create pivot tables and make figures, using python and pand
 - [ ] Fix how the Plot legend displays (text overlaps)
 - [ ] Fix how plot legend overwrites old legens (make it clear).
 - [ ] Fix combo box values that repeat
-- [ ] Make the check marks display better - use a grid pattern. 
+- [x] Make the check marks display better - use a grid pattern. 
 - [ ] Rename match excel convention - filters, columns, rows, values
 - [ ] Add filter capability for pivot tables. 
 - [x] Make real-time plot display, with tabbed interface in GUI.

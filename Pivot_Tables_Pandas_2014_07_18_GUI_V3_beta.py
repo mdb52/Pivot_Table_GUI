@@ -347,22 +347,20 @@ class MainWindow(QtGui.QMainWindow):
 			pass
 		self.combo.clear(); self.combo2.clear();
 		for number, widget in enumerate(checkWidgetList):
-			xPos = 10; yPos=100;
+			layout = QtGui.QGridLayout()
 			for index, each in enumerate(data.columns):
 				self.combo.addItem(each)
 				self.combo2.addItem(each)
 
 				# Make checkboxes for values - first half belowng to "Plot Values", second half "Filter"
 				self.checkBoxList.append(QtGui.QCheckBox(each, widget))
-				self.checkBoxList[counts].move(xPos,yPos)
 				self.checkBoxList[counts].sizeHint()
-				if yPos < 500:
-					yPos +=20
-				else:
-					xPos +=150
-					yPos = 300;
+				# make a grid, with 2 columns
+				layout.addWidget(self.checkBoxList[counts], floor(counts/2), counts % 2)
 				counts+=1;
 			
+			widget.setLayout(layout)
+
 			# add a tab showing these values -- 2 tabs total
 			self.tabBar.insertTab(number+1, widget, nameWidgetList[number])
 
