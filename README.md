@@ -14,3 +14,4 @@ Description: Tool to create pivot tables and make figures, using python and pand
 - [x] Make real-time plot display, with tabbed interface in GUI.
 - [x] Label x-axis in plots.
 - [x] Fix axes labeling.
+- [x] filled symbols with symbolBrush.

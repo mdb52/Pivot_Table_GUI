@@ -172,7 +172,7 @@ class MainWindow(QtGui.QMainWindow):
 		btnPlot.resize(btnPlot.sizeHint())
 		#btnPlot.move(0,150)
 
-		btnFilter = QtGui.QPushButton('Filter Out Check Boxes', mainWidget)
+		btnFilter = QtGui.QPushButton('Filter Data, Make Pivot', mainWidget)
 		btnFilter.setToolTip('You can remove types of data from analysis here')
 		btnFilter.resize(btnFilter.sizeHint())
 		#btnFilter.move(0,100)
@@ -266,7 +266,7 @@ class MainWindow(QtGui.QMainWindow):
 		colorCycles = itertools.cycle(colorValues)
 		for ind, each in enumerate(np.asarray(self.pivotData)):
 			color = colorCycles.next()
-			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color)
+			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color, symbolBrush = color)
 		
 		self.plotWindow.setLabel('left', self.valuePlot)
 		self.plotWindow.setLabel('bottom', self.combo2.currentText())
