@@ -68,7 +68,7 @@ def plotBoxValues(data, value_list, row, col, showMPL):
 		table1 = table1.dropna(axis=1, how='all')
 		print('Size after removing nan: '+repr(np.shape(table1)))
 
-		if showMPL > True:
+		if showMPL == True:
 			
 			# GET N
 			N_table1 = table1.count(axis=0)
@@ -114,6 +114,8 @@ def plotBoxValues(data, value_list, row, col, showMPL):
 
 				text(locs[index], 2*ymin, '$\\bar{x}$: ' +'%.2g'%meanY.iloc[index],
 						horizontalalignment='center')
+			p1.show()
+			p2.show()
 
 		return table1;
 
@@ -307,9 +309,6 @@ class MainWindow(QtGui.QMainWindow):
 						str(self.combo.currentText()), str(self.combo2.currentText()), 
 						MPLFlag))
 			
-			# Now display the MPL plots
-			if MPLFlag == True:
-				show()
 
 		except Exception, err:
 			errorWin = QtGui.QMessageBox(self)
