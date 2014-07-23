@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: matthew belley
+@author: mdb52
 """
 
 from __future__ import division

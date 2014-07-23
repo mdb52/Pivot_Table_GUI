@@ -266,7 +266,7 @@ class MainWindow(QtGui.QMainWindow):
 		colorCycles = itertools.cycle(colorValues)
 		for ind, each in enumerate(np.asarray(self.pivotData)):
 			color = colorCycles.next()
-			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color, brush = color)
+			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color, symbolBrush = color)
 		
 		self.plotWindow.setLabel('left', self.valuePlot)
 		self.plotWindow.setLabel('bottom', self.combo2.currentText())
