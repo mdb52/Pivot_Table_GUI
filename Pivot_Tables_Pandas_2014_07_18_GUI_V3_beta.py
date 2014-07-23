@@ -253,12 +253,16 @@ class MainWindow(QtGui.QMainWindow):
 		print('x: '+repr(xVals))
 		print('y: '+repr(yVals))
 		
-		self.plotWindow.addLegend()	# This must go above the plot calls
+		# Delete any old legends
+		self.plotWindow.addLegend((100,100))	# This must go above the plot calls
+		colorValues = ['r','g','b','c','m','y','k','w']
+		colorCycles = itertools.cycle(colorValues)
 		for ind, each in enumerate(np.asarray(self.pivotData)):
-			self.plotWindow.plot(each, name=yVals[ind], symbol='o')
+			color = colorCycles.next()
+			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color)
 		
-		self.plotWindow.setLabel('left', 'LEFT')
-		self.plotWindow.setLabel('bottom', 'BTTM')
+		self.plotWindow.setLabel('left', self.valuePlot)
+		self.plotWindow.setLabel('bottom', self.combo2.currentText())
 	
 		# Make tick labels
 		xAxis = self.plotWindow.getAxis('bottom')
@@ -294,11 +298,12 @@ class MainWindow(QtGui.QMainWindow):
 			if each.checkState() > 0:
 				# append a list of indices where boxes are checked!
 				listDataToPlot.append(index)
-		
+	
+		self.valuePlot =self.loadedData.columns[listDataToPlot].tolist()
 		try:
 			self.setPivotData( 
 					plotBoxValues(self.filteredData, 
-						self.loadedData.columns[listDataToPlot].tolist(), 
+						self.valuePlot, 
 						str(self.combo.currentText()), str(self.combo2.currentText()), 
 						MPLFlag))
 			
@@ -402,7 +407,7 @@ class MainWindow(QtGui.QMainWindow):
 
 		# Message Window
 		multiPickWin = QtGui.QMessageBox(self)
-		multiPickWin.setText('You can choose <b>MULTIPLE</b> check boxes')
+		multiPickWin.setText('You can only choose <b>ONE</b> check box at a time')
 		multiPickWin.show()
 		
 if __name__ == '__main__':
