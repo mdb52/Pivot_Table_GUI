@@ -5,7 +5,6 @@
 
 from __future__ import division
 
-
 # These allow mpl in PyQt
 from PyQt4.QtGui import QSizePolicy
 from PyQt4.QtCore import QSize
@@ -164,18 +163,15 @@ class MainWindow(QtGui.QMainWindow):
 		btn_quit.clicked.connect(QtCore.QCoreApplication.instance().quit)
 		btn_quit.setToolTip('This is a <b>QPushButton</b> widget')
 		btn_quit.resize(btn_quit.sizeHint())
-		#btn_quit.move(0,550)	# x-y location
 	
 		# Plot data button
 		btnPlot = QtGui.QPushButton('Plot Data', mainWidget)
 		btnPlot.setToolTip('This will plot the <b>Displayed</b> Data')
 		btnPlot.resize(btnPlot.sizeHint())
-		#btnPlot.move(0,150)
 
 		btnFilter = QtGui.QPushButton('Filter Data, Make Pivot', mainWidget)
 		btnFilter.setToolTip('You can remove types of data from analysis here')
 		btnFilter.resize(btnFilter.sizeHint())
-		#btnFilter.move(0,100)
 
 		# LOAD DATA AND SAVE TO A VARIABLE
 		openFile = QtGui.QAction(QtGui.QIcon('open.png'), 'Open', mainWidget)
@@ -186,6 +182,11 @@ class MainWindow(QtGui.QMainWindow):
 		# Define what happens when buttons are clicked
 		btnFilter.clicked.connect(self.filterClicked)
 		btnPlot.clicked.connect(self.plotClicked)
+
+		# make a list of values already plotted
+		self.listPlotted = QtGui.QListWidget()
+		self.listPlotted.resize(256,192)
+		
 
 		# Drop down select combo box
 		lbl1 = QtGui.QLabel('Series', mainWidget)
@@ -205,9 +206,10 @@ class MainWindow(QtGui.QMainWindow):
 
 		# Plot Widget
 		self.plotWindow = pg.PlotWidget()
+		self.plotWindow.resize(self.plotWindow.sizeHint())
 
 		# Grid LAYOUT		4 rows, 8 columns
-		nRows = 8; nCols = 8
+		nRows = 8; nCols = 12
 		layout = QtGui.QGridLayout()
 		# addItem (self, QLayoutItem item, int row, 
 			# int column, int rowSpan = 1, int columnSpan = 1, Qt.Alignment alignment = 0)
@@ -215,17 +217,16 @@ class MainWindow(QtGui.QMainWindow):
 		layout.addWidget(btnFilter, 1, 0)	# Goes in middle left
 		layout.addWidget(btnPlot, 2, 0)
 		layout.addWidget(btn_quit, nRows, 0)	# Bottom left
-		# Add a spacer and allow it to expand
-		# layout.addItem(QtGui.QSpacerItem(0, 0, vPolicy = QSizePolicy.Expanding, 
-			#hPolicy = QSizePolicy.Expanding), 0, 1, nRows, nCols)		#	
 		layout.addWidget(self.checkMPL, 3, 0)		
-		mainWidget.setLayout(layout)
 		layout.addWidget(lbl1, 4, 1)
 		layout.addWidget(self.combo, 4, 0)
 		layout.addWidget(lbl2, 5, 1)
 		layout.addWidget(self.combo2, 5, 0)
+		layout.addWidget(self.listPlotted, 6, 0, 1, 2)
 		layout.addWidget(self.plotWindow, 0, 2, nRows, nCols)
 
+		mainWidget.setLayout(layout)
+		
 		# Add a tab bar with widgets (tab 1 is options and figure, tab 2 is table)
 		self.tabBar = QtGui.QTabWidget(self)
 		self.tabBar.addTab(mainWidget, "Plot Settings")
@@ -268,7 +269,7 @@ class MainWindow(QtGui.QMainWindow):
 			color = colorCycles.next()
 			self.plotWindow.plot(each, name=yVals[ind], symbol='o', symbolPen = color, pen =color, symbolBrush = color)
 		
-		self.plotWindow.setLabel('left', self.valuePlot)
+		self.plotWindow.setLabel('left', self.valuePlot[0])
 		self.plotWindow.setLabel('bottom', self.combo2.currentText())
 	
 		# Make tick labels
@@ -325,7 +326,11 @@ class MainWindow(QtGui.QMainWindow):
 
 		# PLOT FIGURE
 		self.plotReal(self)
-	
+		
+		# Update running list of whats already plotted
+		self.listPlotted.addItem(self.combo.currentText()+', '+self.combo2.currentText())
+
+
 	def filterClicked(self):
 		
 		sender = self.sender()
