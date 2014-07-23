@@ -255,6 +255,12 @@ class MainWindow(QtGui.QMainWindow):
 		print('y: '+repr(yVals))
 		
 		# Delete any old legends
+		try:
+			legend = self.plotWindow.plotItem.legend
+			legend.scene().removeItem(legend)
+		except Exception, err:
+			print('Error: '+repr(err))
+			pass	
 		self.plotWindow.addLegend((100,100))	# This must go above the plot calls
 		colorValues = ['r','g','b','c','m','y','k','w']
 		colorCycles = itertools.cycle(colorValues)
